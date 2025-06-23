@@ -1,6 +1,6 @@
 import requests
-import json
 import subprocess
+import time
 
 def get_api_url():
     result = subprocess.run(
@@ -14,9 +14,8 @@ def get_api_url():
     return result.stdout.strip()
 
 
-api_url = get_api_url()
 def send_post_request(api_url):
-    payload = {"message": "Hello from run.py!"} 
+    payload = {"message": f"Hello from run.py {int(time.time())}!"}
     try:
         response = requests.post(f"{api_url}/write", json=payload)
         response.raise_for_status()  # Raise an error for bad responses
@@ -31,3 +30,12 @@ def send_get_request(api_url, file_name):
         issues = response.json()
     except requests.RequestException as e:
         print(f"Failed to retrieve issues: {e}")
+
+if __name__ == "__main__":
+    print("Starting test via API Gateway...\n")
+    api_url = get_api_url()
+    print("API URL:", api_url)
+
+    file_name = send_post_request(api_url)
+    time.sleep(2)  # Wait 2 seconds before sending the GET request
+    send_get_request(api_url, file_name)

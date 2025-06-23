@@ -9,7 +9,7 @@ terraform {
 
 provider "aws" {
   region  = var.region
-  profile = "wiz-task"
+  profile = "default"
 }
 
 terraform {
@@ -25,7 +25,6 @@ terraform {
 module "s3_bucket" {
   source          = "./modules/s3_bucket"
   bucket_name     = var.bucket_name
-  region          = var.region
   lambda_role_arn = aws_iam_role.lambda_role.arn
 }
 
@@ -44,7 +43,8 @@ module "lambda" {
   function_name = var.lambda_function_name
   handler       = "main.lambda_handler"
   runtime       = "python3.11"
-  lambda_role   = aws_iam_role.lambda_role.arn
+  create_role  = false
+  lambda_role      = aws_iam_role.lambda_role.arn
   environment_variables = {
     BUCKET_NAME = var.bucket_name
   }
@@ -63,6 +63,10 @@ module "lambda" {
   tags = {
     terraform = "true"
   }
+
+  depends_on = [
+    aws_iam_role.lambda_role,
+  ]
 }
 
 module "api_gateway" {
