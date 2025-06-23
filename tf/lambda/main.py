@@ -31,12 +31,13 @@ def lambda_handler(event, context):
         
         return {
             'statusCode': 200,
-            'body': f"File uploaded successfully: {object_name}"
+            'body': f"File uploaded successfully:{object_name}"
         }
     
     elif http_method == 'GET':
         try:
-            body_message = event['queryStringParameters']['file_name']
+            object_name = event['queryStringParameters']['file_name']
+            print (f"Retrieving file: {object_name}")
             response = s3_client.get_object(Bucket=BUCKET_NAME, Key=object_name)
             print(f"File retrieved successfully: {object_name}")
         except Exception as e:

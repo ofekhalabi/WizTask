@@ -20,9 +20,34 @@ resource "aws_s3_bucket_policy" "allow_lambda_access" {
         }
         Action    = [
           "s3:GetObject",
-          "s3:PutObject"
+          "s3:PutObject",
+          "s3:ListBucket",
+          "s3:DeleteObject"
         ]
-        Resource  = "${aws_s3_bucket.my_bucket.arn}/*"
+        Resource  = [
+          aws_s3_bucket.my_bucket.arn,
+          "${aws_s3_bucket.my_bucket.arn}/*"
+        ]
+      },
+      {
+        Sid: "DenyOthers",
+        Effect: "Deny",
+        Principal: "*",
+        Action: [
+          "s3:GetObject",
+          "s3:PutObject",
+          "s3:ListBucket"
+          ],
+        Resource  = [
+          aws_s3_bucket.my_bucket.arn,
+          "${aws_s3_bucket.my_bucket.arn}/*"
+        ]
+
+        Condition: {
+          StringNotEquals: {
+            "aws:PrincipalArn": var.lambda_role_arn
+          }
+        }
       }
     ]
   })
