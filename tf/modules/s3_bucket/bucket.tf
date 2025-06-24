@@ -1,8 +1,6 @@
 resource "aws_s3_bucket" "my_bucket" {
   bucket = var.bucket_name
-  tags = {
-    Name        = var.bucket_name
-  }
+  tags   = var.tags
 }
 
 # Create an S3 bucket policy to allow Lambda function access

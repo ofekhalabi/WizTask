@@ -10,9 +10,17 @@ This project provisions a serverless AWS infrastructure using Terraform. It incl
 
 ---
 
+## Architecture
+
+![System Architecture](architecture.png)
+
+The architecture diagram above illustrates the flow of data and permissions within the system. Client requests are sent to Amazon API Gateway, which triggers an AWS Lambda function. The Lambda function, running with a dedicated IAM role, processes these requests and interacts securely with an Amazon S3 bucket for data storage. The IAM policies and S3 bucket policy ensure that only the Lambda function has access to the S3 bucket, providing a secure and serverless solution for handling API requests and data management.
+
+---
+
 ## Prerequisites
 
-- [Terraform](https://www.terraform.io/downloads.html) v1.0 or newer
+- [Terraform](https://www.terraform.io/downloads.html) v1.10.5 or newer
 - [AWS CLI](https://aws.amazon.com/cli/) configured with a profile (e.g., `default`)
 - Python 3.8+ (for running `run.py`)
 - AWS credentials **must not** be hardcoded. Use environment variables or AWS CLI profiles.
@@ -52,7 +60,7 @@ The Lambda is managed using the official [Terraform AWS Lambda module](https://g
 For more details about the module and its options, see the [Terraform AWS Lambda module documentation](https://github.com/terraform-aws-modules/terraform-aws-lambda).
 ## Lambda Function & API Endpoints
 
-The Lambda function is written in Python and deployed via Terraform. It exposes two HTTP endpoints through API Gateway:
+The Lambda function is written in Python and deployed via Terraform. It exposes two HTTP endpoints through API Gateway **v2**:
 
 - **GET `/read`**  
   Reads data from the S3 bucket.
