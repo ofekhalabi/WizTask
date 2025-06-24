@@ -63,11 +63,10 @@ For more details about the module and its options, see the [Terraform AWS Lambda
 The Lambda function is written in Python and deployed via Terraform. It exposes two HTTP endpoints through API Gateway **v2**:
 
 - **GET `/read`**  
-  Reads data from the S3 bucket.
+  Takes a `file_name` query parameter and returns the file contents from the S3 bucket.
 
 - **POST `/write`**  
-  Writes data to the S3 bucket.  
-  Expects a JSON payload in the request body.
+  Accepts a JSON payload and writes it to a file in the S3 bucket. Returns the generated file name.
 
 Both endpoints are accessible via the API Gateway URL output by Terraform.
 
