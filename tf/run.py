@@ -2,6 +2,10 @@ import requests
 import subprocess
 import time
 
+request_headers = {
+            "Content-Type": "application/json"
+        }
+
 def get_api_url():
     result = subprocess.run(
         ["terraform", "output", "-raw", "gateway_endpoint"],
@@ -17,7 +21,7 @@ def get_api_url():
 def send_post_request(api_url):
     payload = {"message": f"Hello from run.py {int(time.time())}!"}
     try:
-        response = requests.post(f"{api_url}/write", json=payload)
+        response = requests.post(f"{api_url}/write", json=payload, headers=request_headers)
         response.raise_for_status()  # Raise an error for bad responses
         print("POST request sent successfully to API Gateway.\n Response:", response.text)
     except requests.RequestException as e:
@@ -26,7 +30,7 @@ def send_post_request(api_url):
 
 def send_get_request(api_url, file_name):
     try:
-        response = requests.get(f"{api_url}/read", params={"file_name": file_name})
+        response = requests.get(f"{api_url}/read", params={"file_name": file_name}, headers=request_headers)
         response.raise_for_status()  # Raise an error for bad responses
         print("GET request sent successfully to API Gateway.\n Response:", response.text)
     except requests.RequestException as e:
