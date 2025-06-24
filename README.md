@@ -14,7 +14,24 @@ This project provisions a serverless AWS infrastructure using Terraform. It incl
 
 ![System Architecture](architecture.png)
 
-The architecture diagram above illustrates the flow of data and permissions within the system. Client requests are sent to Amazon API Gateway, which triggers an AWS Lambda function. The Lambda function, running with a dedicated IAM role, processes these requests and interacts securely with an Amazon S3 bucket for data storage. The IAM policies and S3 bucket policy ensure that only the Lambda function has access to the S3 bucket, providing a secure and serverless solution for handling API requests and data management.
+- **Client**  
+  Sends HTTP requests:  
+  - `POST /write` – stores data  
+  - `GET /read?file_name=` – retrieves data
+
+- **Amazon API Gateway (v2)**  
+  Receives HTTP requests and forwards them to Lambda. Returns the response to the client.
+
+- **AWS Lambda**  
+  Executes the logic: receives the request, reads from or writes to S3, and returns a response to API Gateway.
+
+- **Amazon S3**  
+  Stores the files. Access is restricted only to the Lambda function's IAM role.
+
+- **IAM**  
+  Provides secure access. The bucket policy ensures that only the Lambda role can access S3.
+
+
 
 ---
 
