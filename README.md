@@ -160,6 +160,15 @@ terraform destroy
 
 ---
 
+---
+
+## CI/CD Automation (Optional)
+
+An optional GitHub Actions workflow is included (`cicd_tf.yaml`) that enables automatic deployment of the Terraform infrastructure with support for region and workspace selection.  
+This demonstrates how infrastructure changes can be managed through version-controlled pipelines.
+
+> Note: This workflow is not required for the assignment but included to showcase CI/CD best practices.
+
 ## Documentation & References
 
 - [API Gateway HTTP API Integration with Lambda (AWS Docs)](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-lambda.html)

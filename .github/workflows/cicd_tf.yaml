@@ -1,0 +1,62 @@
+on:
+  workflow_dispatch:
+    inputs:
+      region:
+        description: 'choose the region to deploy the infra'
+        required: true
+        default: 'eu-central-1'
+        type: choice
+        options:
+          - eu-central-1
+          - eu-north-1
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_REGION: ${{ github.event.inputs.region }}
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.10.5
+      
+      - name: configure AWS credentials
+        run: |
+          aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+          aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+          aws configure set region ${{ github.event.inputs.region }}
+        
+      - name: Terraform Init
+        run: |
+          cd tf
+          terraform init tf
+
+      
+      - name: Terraform workspace
+        run: |
+          cd tf
+          WORKSPACE_NAME=${{ github.event.inputs.workspace }}
+          terraform workspace select $WORKSPACE_NAME || terraform workspace new $WORKSPACE_NAME
+      
+      - name: Terraform Validate and Format
+        run: |
+          cd tf
+          terraform fmt 
+          terraform validate
+
+      - name: Terraform Plan
+        run: |
+          cd tf
+          terraform plan -var-file=${{ github.event.inputs.region }}.tfvars
+      
+      - name: Terraform Apply
+        run: |
+          cd tf
+          terraform apply -var-file=${{ github.event.inputs.region }}.tfvars

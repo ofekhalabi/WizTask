@@ -26,8 +26,8 @@ module "s3_bucket" {
   source          = "./modules/s3_bucket"
   bucket_name     = var.bucket_name
   lambda_role_arn = aws_iam_role.lambda_role.arn
-  tags            = {
-    Name        = var.bucket_name
+  tags = {
+    Name      = var.bucket_name
     terraform = "true"
   }
   depends_on = [
@@ -50,8 +50,8 @@ module "lambda" {
   function_name = var.lambda_function_name
   handler       = "main.lambda_handler"
   runtime       = "python3.11"
-  create_role  = false
-  lambda_role      = aws_iam_role.lambda_role.arn
+  create_role   = false
+  lambda_role   = aws_iam_role.lambda_role.arn
   environment_variables = {
     BUCKET_NAME = var.bucket_name
   }
