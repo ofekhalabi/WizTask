@@ -8,7 +8,6 @@ s3_client = boto3.client("s3")
 BUCKET_NAME = os.environ["BUCKET_NAME"]
 
 
-
 def lambda_handler(event, context):
     print("Lambda handler started")
     object_name = f"wiz_body_{int(time.time())}.txt"
