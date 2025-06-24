@@ -176,3 +176,4 @@ This demonstrates how infrastructure changes can be managed through version-cont
 - [Terraform AWS Lambda Module Variables](https://github.com/terraform-aws-modules/terraform-aws-lambda/blob/master/variables.tf)
 - [API Gateway HTTP API CORS (AWS Docs)](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-cors.html)
 - [Boto3 S3 Client Documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html)
+- [aws_s3_bucket Terraform](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#attribute-reference)
