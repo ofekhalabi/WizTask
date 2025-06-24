@@ -59,8 +59,12 @@ module "lambda" {
 
   allowed_triggers = {
     AllowExecutionFromAPIGateway = {
-      service    = "apigateway"
-      source_arn = "${module.api_gateway.api_execution_arn}/*/*"
+      service = "apigateway"
+      source_arn = "${module.api_gateway.api_execution_arn}/*/GET/read"
+    }
+    AllowExecutionFromAPIGatewayPost = {
+      service = "apigateway"
+      source_arn = "${module.api_gateway.api_execution_arn}/*/POST/write"
     }
   }
 
@@ -84,8 +88,8 @@ module "api_gateway" {
   protocol_type = "HTTP"
 
   cors_configuration = {
-    allow_headers = ["content-type", "x-amz-date", "authorization", "x-api-key", "x-amz-security-token", "x-amz-user-agent"]
-    allow_methods = ["*"]
+    allow_headers = ["content-type"]
+    allow_methods = ["GET", "POST"]
     allow_origins = ["*"]
   }
   create_domain_name = false
