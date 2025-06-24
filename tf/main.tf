@@ -53,7 +53,7 @@ module "lambda" {
   create_role   = false
   lambda_role   = aws_iam_role.lambda_role.arn
   environment_variables = {
-    BUCKET_NAME = var.bucket_name
+    BUCKET_NAME = module.s3_bucket.bucket_name
   }
   publish = true
 
