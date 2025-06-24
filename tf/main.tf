@@ -141,9 +141,3 @@ resource "aws_iam_role_policy_attachment" "lambda_policy_attachment_S3" {
   role       = aws_iam_role.lambda_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
-
-# Attach policy to the role for lambda to access API Gateway
-resource "aws_iam_role_policy_attachment" "lambda_policy_attachment_APIGateway" {
-  role       = aws_iam_role.lambda_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonAPIGatewayAdministrator"
-}
