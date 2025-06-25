@@ -21,7 +21,6 @@ resource "aws_s3_bucket_policy" "allow_lambda_access" {
           "s3:PutObject"
         ]
         Resource  = [
-          aws_s3_bucket.my_bucket.arn,
           "${aws_s3_bucket.my_bucket.arn}/*"
         ]
       },

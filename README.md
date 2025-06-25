@@ -178,3 +178,4 @@ This demonstrates how infrastructure changes can be managed through version-cont
 - [Boto3 S3 Client Documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html)
 - [aws_s3_bucket Terraform](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#attribute-reference)
 - [requests libray docs](https://requests.readthedocs.io/en/latest/user/quickstart/#response-content)
+- [Actions, resources, and condition keys for Amazon S3](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazons3.html)

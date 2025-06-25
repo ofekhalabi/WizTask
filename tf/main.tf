@@ -73,6 +73,7 @@ module "lambda" {
 
   depends_on = [
     aws_iam_role.lambda_role,
+    data.archive_file.lambda,
   ]
 }
 
