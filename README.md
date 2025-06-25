@@ -179,3 +179,4 @@ This demonstrates how infrastructure changes can be managed through version-cont
 - [aws_s3_bucket Terraform](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#attribute-reference)
 - [requests libray docs](https://requests.readthedocs.io/en/latest/user/quickstart/#response-content)
 - [Actions, resources, and condition keys for Amazon S3](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazons3.html)
+- [github Action manual-workflow-approval](https://github.com/marketplace/actions/manual-workflow-approval)
