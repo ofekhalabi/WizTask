@@ -58,7 +58,7 @@ jobs:
       - name: Terraform Plan
         run: |
           cd tf
-          terraform plan -var-file=${{ github.event.inputs.region }}.tfvars > plan_output.txt
+          terraform plan -var-file=${{ github.event.inputs.region }}.tfvars -out plan.tfout
       
       - name: Manual Approval
         uses: trstringer/manual-approval@v1
