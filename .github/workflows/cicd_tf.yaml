@@ -14,9 +14,13 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   AWS_REGION: ${{ github.event.inputs.region }}
 
+# add write permissions to issues
+permissions:
+  issues: write
+
 
 jobs:
-  build:
+  terraform build and deploy:
     runs-on: ubuntu-latest
 
     steps:
