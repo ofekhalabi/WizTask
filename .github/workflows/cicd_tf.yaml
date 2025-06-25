@@ -14,9 +14,13 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   AWS_REGION: ${{ github.event.inputs.region }}
 
+# add write permissions to issues
+permissions:
+  issues: write
+
 
 jobs:
-  build:
+  terraform_build_and_deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -54,9 +58,23 @@ jobs:
       - name: Terraform Plan
         run: |
           cd tf
-          terraform plan -var-file=${{ github.event.inputs.region }}.tfvars
+          terraform plan -var-file=${{ github.event.inputs.region }}.tfvars -out tf.plan
+          terraform show -no-color tf.plan > plan.txt
+
+      - name: Manual Approval
+        uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: ofekhalabi
+          minimum-approvals: 1
+          issue-title: "Approval for Terraform Deployment"
+          issue-body: "Please approve or deny the Terraform deployment for region ${{ github.event.inputs.region }}."
+          issue-body-file-path: tf/plan.txt
+          additional-approved-words: 'YES,APPROVED'
+          addditional-denied-words: 'NO,REJECTED'
+
       
       - name: Terraform Apply
         run: |
           cd tf
-          terraform apply -var-file=${{ github.event.inputs.region }}.tfvars
+          terraform apply -var-file=${{ github.event.inputs.region }}.tfvars -auto-approve
