@@ -36,7 +36,7 @@ jobs:
       - name: Terraform Init
         run: |
           cd tf
-          terraform init tf
+          terraform init
 
       
       - name: Terraform workspace
