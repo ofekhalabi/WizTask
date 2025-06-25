@@ -77,4 +77,4 @@ jobs:
       - name: Terraform Apply
         run: |
           cd tf
-          terraform apply -var-file=${{ github.event.inputs.region }}.tfvars
+          terraform apply -var-file=${{ github.event.inputs.region }}.tfvars -auto-approve
