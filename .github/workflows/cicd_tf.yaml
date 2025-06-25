@@ -54,7 +54,18 @@ jobs:
       - name: Terraform Plan
         run: |
           cd tf
-          terraform plan -var-file=${{ github.event.inputs.region }}.tfvars
+          terraform plan -var-file=${{ github.event.inputs.region }}.tfvars > plan_output.txt
+      
+      - name: Manual Approval
+        uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: ofekhalabi
+          minimum-approvals: 1
+          issue-title: "Approval for Terraform Deployment"
+          issue-body: "Please approve or deny the Terraform deployment for region ${{ github.event.inputs.region }}."
+          issue-body-file-path: tf/plan_output.txt
+
       
       - name: Terraform Apply
         run: |
