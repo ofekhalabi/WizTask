@@ -42,7 +42,7 @@ jobs:
       - name: Terraform workspace
         run: |
           cd tf
-          WORKSPACE_NAME=${{ github.event.inputs.workspace }}
+          WORKSPACE_NAME=${{ github.event.inputs.region }}
           terraform workspace select $WORKSPACE_NAME || terraform workspace new $WORKSPACE_NAME
       
       - name: Terraform Validate and Format
