@@ -68,7 +68,7 @@ jobs:
           minimum-approvals: 1
           issue-title: "Approval for Terraform Deployment"
           issue-body: "Please approve or deny the Terraform deployment for region ${{ github.event.inputs.region }}."
-          issue-body-file-path: tf/plan_output.txt
+          issue-body-file-path: tf/plan.tfout
 
       
       - name: Terraform Apply
