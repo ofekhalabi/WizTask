@@ -24,9 +24,11 @@ def send_post_request(api_url):
         response = requests.post(f"{api_url}/write", json=payload, headers=request_headers)
         response.raise_for_status()  # Raise an error for bad responses
         print("POST request sent successfully to API Gateway.\n Response:", response.text)
+        return response.text.split(":")[-1].strip() # Extract the file name from the response
     except requests.RequestException as e:
         print(f"Failed to create issue: {e}")
-    return response.text.split(":")[-1].strip() # Extract the file name from the response
+        
+    
 
 def send_get_request(api_url, file_name):
     try:
