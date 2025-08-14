@@ -12,6 +12,7 @@ def lambda_handler(event, context):
     print("Lambda handler started")
     try:
         http_method = event['requestContext']['http']['method']
+        http_path = event['requestContext']['http']['path']
     except KeyError as e:
         print (f"error: {e}")
         return {
@@ -25,7 +26,7 @@ def lambda_handler(event, context):
             'body': 'Internal server error'
         }
     
-    if http_method == 'POST':
+    if http_method == 'POST' and http_path == '/write':
         body_message = event['body']
         object_name = f"wiz_body_{int(time.time())}.txt"
         try:
@@ -40,10 +41,11 @@ def lambda_handler(event, context):
         
         return {
             'statusCode': 200,
-            'body': f"File uploaded successfully:{object_name}"
+            'body': f"File uploaded successfully:{object_name}",
+            'file_name': object_name
         }
     
-    elif http_method == 'GET':
+    elif http_method == 'GET' and http_path == '/read':
         try:
             object_name = event['queryStringParameters']['file_name']
             print (f"Retrieving file: {object_name}")
