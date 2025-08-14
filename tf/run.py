@@ -2,6 +2,7 @@ import requests
 import subprocess
 import time
 
+
 request_headers = {
             "Content-Type": "application/json"
         }
@@ -19,13 +20,12 @@ def get_api_url():
 
 
 def send_post_request(api_url):
-    payload = {"message": f"Hello from run.py {int(time.time())}!"}
+    payload = f"Hello from run.py {int(time.time())}!"
     try:
         response = requests.post(f"{api_url}/write", json=payload, headers=request_headers)
         response.raise_for_status()  # Raise an error for bad responses
-        print("POST request sent successfully to API Gateway.\n Response:", response.text)
-        print (f"Response JSON: {response.json().get('file_name', 'No file name returned')}")
-        return response.text.split(":")[-1].strip() # Extract the file name from the response
+        print("POST request sent successfully to API Gateway.\n Response:", response.json().get('message', 'No message returned'))
+        return  response.json().get('file_name', 'No file name returned')
     except requests.RequestException as e:
         print(f"Failed to create issue: {e}")
         
@@ -44,4 +44,7 @@ if __name__ == "__main__":
     api_url = get_api_url()
     file_name = send_post_request(api_url)
     time.sleep(2)  # Wait 2 seconds before sending the GET request
-    send_get_request(api_url, file_name)
+    if file_name != 'No file name returned':
+        send_get_request(api_url, file_name)
+    else:
+        print("No valid file name returned.")

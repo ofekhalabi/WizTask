@@ -1,7 +1,7 @@
 import boto3
 import time
 import os
-
+import json
 
 # AWS clients
 s3_client = boto3.client("s3")
@@ -41,8 +41,10 @@ def lambda_handler(event, context):
         
         return {
             'statusCode': 200,
-            'body': f"File uploaded successfully:{object_name}",
-            'file_name': object_name
+            'body': json.dumps({
+                "message": f"File uploaded successfully: {object_name}",
+                "file_name": object_name
+            })
         }
     
     elif http_method == 'GET' and http_path == '/read':
