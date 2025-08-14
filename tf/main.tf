@@ -140,5 +140,31 @@ resource "aws_iam_role" "lambda_role" {
 # Attach policy to the role for lambda to access S3 Logs
 resource "aws_iam_role_policy_attachment" "lambda_policy_attachment_S3" {
   role       = aws_iam_role.lambda_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+  policy_arn = aws_iam_policy.policy.arn
+}
+
+
+resource "aws_iam_policy" "policy" {
+  name        = "lambda_policy_for_s3"
+  path        = "/"
+  description = "Policy for Lambda to access S3 bucket"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        "Sid" : "SpecificPermissions",
+        "Effect" : "Allow",
+        "Action" : [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:ListBucket"
+        ],
+        "Resource" : [
+          "arn:aws:s3:::wiz-task-bucket",
+          "arn:aws:s3:::wiz-task-bucket/*"
+        ]
+      },
+    ]
+  })
 }
